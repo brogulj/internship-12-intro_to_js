@@ -1,16 +1,39 @@
+let languages = [
+    { id: 1, language: "python" },
+    { id: 2, language: "javascript" },
+    { id: 3, language: "c#" },
+    { id: 4, language: "php" },
+    { id: 5, language: "java" },
+]
 let developers = [
-    new Developer(1, "Bruno Rogulj", "unemployed", "unemployed", "fullstack", []),
-    new Developer(2, "Bruno Rogulj2", "unemployed", "unemployed", "fullstack", [])
+    {
+        id: 1,
+        name: "Bruno Rogulj",
+        relationship: "unemployed",
+        company: false,
+        languages: [languages[1], languages[2], languages[0]],
+    },
+    {
+        id: 2,
+        name: "Ante Vuletić",
+        relationship: "freelancing",
+        company: false,
+        languages: [languages[1], languages[2], languages[0]]
+    },
+    {
+        id: 3,
+        name: "Matija Luketin",
+        relationship: "employed",
+        company: "lilcodelab",
+        languages: [languages[1], languages[2], languages[0]]
+    }
 ]
 let companies = [
-]
-let languages = [
-    new Language(1, "python"),
-    new Language(2, "javascript"),
-    new Language(3, "c#"),
-    new Language(4, "php"),
-    new Language(5, "java"),
-
+    {
+        id: 1,
+        name: "lilcodelab",
+        employees: [developers[2]]
+    }
 ]
 
 function mainMenu(developers, companies, languages) {
@@ -36,6 +59,22 @@ function mainMenu(developers, companies, languages) {
             break;
     }
     mainMenu(developers, companies, languages)
+}
+
+function searchMenu(developers, companies, languages) {
+    let choice = window.prompt("1. Search Developers\n2. Search Companies", "enter choice here");
+    switch (choice) {
+        case "1":
+            searchDeveloperByName(developers, window.prompt("Enter the name of the developer you want to find", "Enter the name here"));
+            break;
+        case "2":
+            searchCompanyByName(companies, window.prompt("Enter the name of the company you want to find", "Enter the name here"));
+            break;
+        default:
+            break;
+    }
+    mainMenu(developers, companies, languages);
+
 }
 
 function addMenu(developers, companies, languages) {
@@ -69,6 +108,8 @@ function listMenu(developers, companies, languages) {
         case "3":
             alert(listLanguages(languages));
             break;
+        case "4":
+            alert(searchByRelationship(developers, window.prompt("Enter the type of the relationship you want to search for")));
         default:
             alert("wrong input")
             break;

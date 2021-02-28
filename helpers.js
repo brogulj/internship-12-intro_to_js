@@ -1,15 +1,12 @@
 function formatDeveloperName(name) {
     let nameAndSurname = name.split(" ");
-    for (index = 0; index < 2; index++) {
-        for (letter = 0; letter < nameAndSurname[index]; letter++) {
-            if (letter != 0) {
-                nameAndSurname.charAt(letter).toUpperCase();
-            } else {
-                nameAndSurname.charAt(letter).toLowerCase();
-            }
-        }
-    }
-    return nameAndSurname[1] + " " + nameAndSurname[2];
+    fullName = "";
+    nameAndSurname.forEach(word => {
+        word = word.toLowerCase();
+        word[0] = word[0].toUpperCase();
+        fullName += word + " ";
+    });
+    return fullName;
 }
 
 function formatRelationship(relationship) {
@@ -64,8 +61,8 @@ function formatType(type) {
 
 function formatLanguage(language, languages) {
     language = language.toLowerCase(); 
-    if (!languages.includes(language)) {
-        return; 
+    if (!languages.some(lang => lang.name = language)) {
+        return "wrong input"; 
     } else {
         return languages.find(lang => lang.name == language);
     }

@@ -3,24 +3,30 @@ function addDeveloperPrompt(developers, languages, companies) {
     let name = formatDeveloperName(window.prompt("Please enter the full name of the developer", "enter the name here"));
     let relationship = formatRelationship(window.prompt("Please enter the relationship of the developer: \n1 (employed), 2 (freelancing), 3 (unemployed)", "enter the number here"))
     let company = "unemployed";
+    console.log(companies);
+    console.log(company);
     if (relationship == "employed" && relationship != "wrong input") {
         company = window.prompt("Enter the company name: ", "enter the name here")
-        if (!companies.includes(comp => comp.name.toLowerCase() == company.toLowerCase())) {
-            company = "wrong input"
+        if (!companies.some(comp => comp.name.toLowerCase() == company.toLowerCase())) {
+            company = "unemployed";
+            relationship = "unemployed";
         } else {
-            company = companies.find(comp => comp.name.toLowerCase() == company.toLowerCase)
+            company = companies.find(comp => comp.name.toLowerCase() == company.toLowerCase())
         }
     }
+    console.log(company)
     let type = formatType(window.prompt("Please enter the type of the developer: \n1 (backend), 2 (frontend), 3 (fullstack)", "enter the number here"))
     let languagesKnown = []
     languagesKnown.push(formatLanguage(window.prompt("Enter the name of the language developer knows", "enter the name here"), languages));
+    console.log(languagesKnown)
     if (window.confirm("Are you sure you want to add this developer")
         && relationship != "wrong input"
-        && company != "wrong input"
         && type != "wrong input"
-        && !languagesKnown.includes(lang => lang.name == "wrong input")) {
-        developers.push(new Developer(id, name, relationship, company, type, languagesKnown));
-        companies[companies.indexOf(company)].employees.push(developers.find(dev => dev.id == id))
+        && !languagesKnown[0] != "wrong input") {
+        developers.push({id: id, name: name,relationship: relationship,company: company,type: type,languages: languagesKnown});
+        if (relationship == "employed"){
+            companies.find(comp => comp.name == company.name).employees.push(developers[id]);
+        }
     }
     else {
         alert("Developer not added!")
@@ -30,15 +36,15 @@ function addDeveloperPrompt(developers, languages, companies) {
 function addCompanyPrompt(companies) {
     let id = getMaxId(companies) + 1;
     let name = window.prompt("Enter the name of the company", "enter the name here");
-    if (name != "" && !companies.includes(comp => comp.name.toLowerCase() == name.toLowerCase()))
-        companies.push(new Company(id, name));
+    if (name != "" && !companies.some(comp => comp.name.toLowerCase() == name.toLowerCase()))
+        companies.push({id: id,name: name, employees: []});
 }
 
 function addLanguagePrompt(languages) {
     let id = getMaxId(languages) + 1;
     let name = window.prompt("Enter the name of the laguage", "enter the name here");
-    if (name != "" && !languages.includes(lang => lang.name.toLowerCase() == name.toLowerCase()))
-        languages.push(new Language(id, name));
+    if (name != "" && !languages.some(lang => lang.name.toLowerCase() == name.toLowerCase()))
+        languages.push({id: id,name: name});
 }
 
 function listDevelopers(developers) {
@@ -49,7 +55,7 @@ function listDevelopers(developers) {
         developersList += "Work relationship: " + developer.relationship + "\n";
         developersList += "Employment place: " + developer.company.name + "\n";
         developersList += "Type of developer: " + developer.type + "\n";
-        developersList += "Languages known: " + developer.languages + "\n";
+        developersList += "Languages known: " + listLanguages(developer.languages) + "\n";
     });
     return developersList
 }
@@ -77,38 +83,96 @@ function listLanguages(languages) {
     return languagesList;
 }
 
-function chooseByIdPrompt(list, type) {
+function searchDeveloperByName(developers, searchValue) {
+    developersMatching = [];
+    developers.forEach(developer => {
+        if(developer.name.includes(searchValue)) {
+            developersMatching.push(developer);
+        }
+    });
+    window.alert(listDevelopers(developersMatching));
+}
+
+function searchCompanyByName(companies, searchValue) {
+    companiesMatching = [];
+    companies.forEach(company => {
+        if(company.name.includes(searchValue)) {
+            companiesMatching.push(company);
+        }
+    });
+    window.alert(listCompanies(companiesMatching));
+}
+
+function chooseByIdPrompt(list, type, ) {
     switch (type) {
         case "developer":
-            choice = window.prompt(listDevelopers(), "enter the developer id here")
+            choice = window.prompt(listDevelopers(list), "enter the developer id here")
             break;
         case "company":
-            choice = window.prompt(listCompanies(), "enter the company id here")
+            choice = window.prompt(listCompanies(list), "enter the company id here")
+            break;
         case "language":
-            choice = window.prompt(listLanguages(), "enter the language id here")
+            choice = window.prompt(listLanguages(list), "enter the language id here")
+            break;
         default:
             break;
     }
-    if (list.includes(element => element.id == choice)) {
+    if (list.some(element => element.id == choice)) {
         return list.find(element => element.id == choice);
     } else {
         return 0;
     }
 }
 
+function searchByType(developers, searchValue){
+    developersChosen = [];
+    developers.forEach(developer => {
+        if (developer.type.includes(searchValue)) {
+            developersChosen.push(developer);
+        }
+    });
+    listDevelopers(developersChosen);
+}
+
+function searchByRelationship(developers, searchValue){
+    developersChosen = [];
+    developers.forEach(developer => {
+        if (developer.relationship.includes(searchValue)) {
+            developersChosen.push(developer);
+        }
+    });
+    listDevelopers(developersChosen);
+}
+
+function searchByLanguage(developers, searchValue){
+    developersChosen = [];
+    developers.forEach(developer => {
+        if (developer.languages.includes(searchValue)) {
+            developersChosen.push(developer);
+        }
+    });
+    listDevelopers(developersChosen);
+}
+
 function editCompanyPrompt(company, companies) {
     let name = window.prompt("Enter the new company name: ", "enter the name here")
-    if (name != "" && !companies.includes(comp => comp.name.toLowerCase() == name.toLowerCase()))
-        company.name = name;
+    console.log(companies);
+    if (name != "" && !companies.some(comp => comp.name.toLowerCase() == name.toLowerCase())){
+        companies.find(comp => comp.name == company.name).name = name;
+        companies.find(comp => comp.name == comp.name).employees.forEach(employee => {
+            employee.company = companies.find(comp => comp.name == comp.name);
+        })
+    }
+    console.log(companies);
 }
 
 function editDeveloperPrompt(developer, developers, languages, companies) {
     let name = formatDeveloperName(window.prompt("Please enter the full name of the developer", "enter the name here"));
     let relationship = formatRelationship(window.prompt("Please enter the relationship of the developer: \n1 (employed), 2 (freelancing), 3 (unemployed)", "enter the number here"))
     let company = "unemployed";
-    if (relationship != "unemployed" && relationship != "wrong input") {
+    if (relationship == "employed" && relationship != "wrong input") {
         company = window.prompt("Enter the company name: ", "enter the name here")
-        if (!companies.includes(comp => comp.name.toLowerCase() == company.toLowerCase())) {
+        if (!companies.some(comp => comp.name.toLowerCase() == company.toLowerCase())) {
             company = "wrong input"
         } else {
             company = companies.find(comp => comp.name.toLowerCase() == company.toLowerCase)
@@ -121,9 +185,11 @@ function editDeveloperPrompt(developer, developers, languages, companies) {
         && relationship != "wrong input"
         && company != "wrong input"
         && type != "wrong input"
-        && !languagesKnown.includes(lang => lang.name == "wrong input")) {
-        developers.indexOf(developer) = new Developer(developer.id, name, relationship, company, type, languagesKnown);
-        companies.find(company).employees.push(developers.find(dev => dev.id == id))
+        && !languagesKnown.some(lang => lang.name == "wrong input")) {
+        developers[developers.indexOf(developer)] = {id: developer.id, name: name,relationship: relationship,company: company,type: type,languages: languagesKnown};
+        if (relationship == "employed"){
+            companies.find(comp => comp.name == company.name).employees.push(developers[id]);
+        }
     }
     else {
         alert("Developer not edited!")
