@@ -14,13 +14,13 @@ function formatDeveloperName(name) {
 
 function formatRelationship(relationship) {
     switch (relationship) {
-        case 1:
+        case "1":
             relationship = "employed";
             break;
-        case 2: 
+        case "2": 
             relationship = "freelancing"; 
             break;
-        case 3:
+        case "3":
             relationship = "unemployed";
             break; 
         default:
@@ -28,6 +28,7 @@ function formatRelationship(relationship) {
     }
     if (relationship != "employed" && relationship != "unemployed" && relationship != "freelancing") {
         relationship = "wrong input";
+        alert("wrong relationship")
     }
     return relationship; 
 }
@@ -41,20 +42,22 @@ function arrayRemove(arr, value) {
 
 function formatType(type) {
     switch (type) {
-        case 1:
+        case "1":
             type = "backend";
             break;
-        case 2: 
+        case "2": 
             type = "frontend"; 
             break;
-        case 3:
+        case "3":
             type = "fullstack";
             break; 
         default:
+            type = "wrong input"
             break;
     }
     if (type != "backend" && type != "frontend" && type != "fullstack") {
         type = "wrong input";
+        alert("wrong relationship")
     }
     return type; 
 }

@@ -3,7 +3,7 @@ function addDeveloperPrompt(developers, languages, companies) {
     let name = formatDeveloperName(window.prompt("Please enter the full name of the developer", "enter the name here"));
     let relationship = formatRelationship(window.prompt("Please enter the relationship of the developer: \n1 (employed), 2 (freelancing), 3 (unemployed)", "enter the number here"))
     let company = "unemployed";
-    if (relationship != "unemployed" && relationship != "wrong input") {
+    if (relationship == "employed" && relationship != "wrong input") {
         company = window.prompt("Enter the company name: ", "enter the name here")
         if (!companies.includes(comp => comp.name.toLowerCase() == company.toLowerCase())) {
             company = "wrong input"
@@ -20,7 +20,7 @@ function addDeveloperPrompt(developers, languages, companies) {
         && type != "wrong input"
         && !languagesKnown.includes(lang => lang.name == "wrong input")) {
         developers.push(new Developer(id, name, relationship, company, type, languagesKnown));
-        companies.find(company).employees.push(developers.find(dev => dev.id == id))
+        companies[companies.indexOf(company)].employees.push(developers.find(dev => dev.id == id))
     }
     else {
         alert("Developer not added!")
