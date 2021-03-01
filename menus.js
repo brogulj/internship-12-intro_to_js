@@ -55,7 +55,7 @@ function searchMenu(developers, companies, languages) {
 }
 
 function addMenu(developers, companies, languages) {
-    let choice = window.prompt("1. Add Developer\n2. Add Company\n3. Add Language", "enter choice here");
+    let choice = window.prompt("1. Add Developer\n2. Add Company\n3. Add Language\n4. Add Language to Developer", "enter choice here");
 
     switch (choice) {
         case "1":
@@ -66,6 +66,9 @@ function addMenu(developers, companies, languages) {
             break;
         case "3":
             addLanguagePrompt(languages)
+            break;
+        case "4":
+            addLanguageToDeveloperPrompt(developers, languages);
             break;
         default:
             alert("wrong input")

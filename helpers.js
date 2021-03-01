@@ -4,7 +4,7 @@ function formatDeveloperName(name) {
     nameAndSurname.forEach(word => {
         word = word.toLowerCase();
         word[0] = word[0].toUpperCase();
-        fullName += word + " ";
+        fullName += word[0].toUpperCase() + word.substring(1).toLowerCase() +  " ";
     });
     return fullName;
 }
@@ -116,9 +116,9 @@ function listCompanies(companies) {
 }
 
 function listLanguages(languages) {
-    let languagesList = "";
+    let languagesList = "\n";
     languages.forEach(language => {
-        languagesList += language.name + "\n";
+        languagesList += `  [${language.id}] ` + language.name + "\n";
     });
     return languagesList;
 }

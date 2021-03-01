@@ -13,7 +13,7 @@ let developers = [
         relationship: relationshipTypeEnum.UNEMPLOYED,
         company: relationshipTypeEnum.UNEMPLOYED,
         type: developerTypeEnum.FRONTEND,
-        languagesKnown: [languages[1], languages[2], languages[0]],
+        languagesKnown: [Object.assign(languages[0]), Object.assign(languages[1]), Object.assign(languages[2])]
     },
     {
         id: 2,
@@ -21,7 +21,7 @@ let developers = [
         relationship: relationshipTypeEnum.FREELANCER,
         company: relationshipTypeEnum.UNEMPLOYED,
         type: developerTypeEnum.BACKEND,
-        languagesKnown: [languages[1], languages[2], languages[0]]
+        languagesKnown: [Object.assign(languages[1]), Object.assign(languages[2])]
     },
     {
         id: 3,
@@ -29,14 +29,27 @@ let developers = [
         relationship: relationshipTypeEnum.UNEMPLOYED,
         company: relationshipTypeEnum.UNEMPLOYED,
         type: developerTypeEnum.FULLSTACK,
-        languagesKnown: [languages[1], languages[2], languages[0]]
-    }
+        languagesKnown: [Object.assign(languages[1]), Object.assign(languages[2])]
+    },
+    {
+        id: 4,
+        name: "Nino Borović",
+        relationship: relationshipTypeEnum.UNEMPLOYED,
+        company: relationshipTypeEnum.UNEMPLOYED,
+        type: developerTypeEnum.FULLSTACK,
+        languagesKnown: [Object.assign(languages[1]), Object.assign(languages[2])]
+    },
 ]
 
 let companies = [
     {
         id: 1,
         name: "lilcodelab",
+        employees: []
+    },
+    {
+        i: 2,
+        name: "DUMP",
         employees: []
     }
 ]
@@ -63,7 +76,7 @@ languages.sort(function(a, b) {
     }
     return 0;
   });
-  
+
 companies.sort(function(a, b) {
     var nameA = a.name.toUpperCase();
     var nameB = b.name.toUpperCase();
