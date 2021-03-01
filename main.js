@@ -1,31 +1,35 @@
 let languages = [
-    { id: 1, language: "python" },
-    { id: 2, language: "javascript" },
-    { id: 3, language: "c#" },
-    { id: 4, language: "php" },
-    { id: 5, language: "java" },
+    { id: 1, name: "python" },
+    { id: 2, name: "javascript" },
+    { id: 3, name: "c#" },
+    { id: 4, name: "php" },
+    { id: 5, name: "java" },
 ]
+console.log(languages)
 let developers = [
     {
         id: 1,
         name: "Bruno Rogulj",
         relationship: "unemployed",
         company: false,
-        languages: [languages[1], languages[2], languages[0]],
+        type: "frontend",
+        languagesKnown: [languages[1], languages[2], languages[0]],
     },
     {
         id: 2,
         name: "Ante Vuletić",
         relationship: "freelancing",
         company: false,
-        languages: [languages[1], languages[2], languages[0]]
+        type: "backend",
+        languagesKnown: [languages[1], languages[2], languages[0]]
     },
     {
         id: 3,
         name: "Matija Luketin",
         relationship: "employed",
         company: "lilcodelab",
-        languages: [languages[1], languages[2], languages[0]]
+        type: "fullstack",
+        languagesKnown: [languages[1], languages[2], languages[0]]
     }
 ]
 let companies = [
@@ -52,7 +56,7 @@ function mainMenu(developers, companies, languages) {
             editMenu(developers, companies, languages);
             break;
         case "5":
-            removeMenu();
+            removeMenu(developers, companies, languages);
             break;
         default:
             alert("wrong input")
@@ -62,7 +66,7 @@ function mainMenu(developers, companies, languages) {
 }
 
 function searchMenu(developers, companies, languages) {
-    let choice = window.prompt("1. Search Developers\n2. Search Companies", "enter choice here");
+    let choice = window.prompt("1. Search Developers\n2. Search Companies\n3. Search Developers by Type\n4. Search Developers by Relationship\n5. Search Developers by Language", "enter choice here");
     switch (choice) {
         case "1":
             searchDeveloperByName(developers, window.prompt("Enter the name of the developer you want to find", "Enter the name here"));
@@ -70,7 +74,17 @@ function searchMenu(developers, companies, languages) {
         case "2":
             searchCompanyByName(companies, window.prompt("Enter the name of the company you want to find", "Enter the name here"));
             break;
+        case "3":
+            alert(searchByType(developers, window.prompt("enter the type of the developer you want to search for")))
+            break;
+        case "4":
+            alert(searchByRelationship(developers, window.prompt("Enter the type of the relationship you want to search for")));
+            break;
+        case "5":
+            alert(searchByLanguage(developers, window.prompt("Enter the name of the language you want to search for:")))
+            break;
         default:
+            alert("wrong input")
             break;
     }
     mainMenu(developers, companies, languages);
@@ -108,8 +122,6 @@ function listMenu(developers, companies, languages) {
         case "3":
             alert(listLanguages(languages));
             break;
-        case "4":
-            alert(searchByRelationship(developers, window.prompt("Enter the type of the relationship you want to search for")));
         default:
             alert("wrong input")
             break;
@@ -128,6 +140,7 @@ function editMenu(developers, companies, languages) {
             break;
         case "3":
             editLanguagePrompt(chooseByIdPrompt(languages, "company"), languages)
+            break;
         default:
             alert("wrong input")
             break;
@@ -140,25 +153,26 @@ function removeMenu(developers, companies, languages) {
     switch (choice) {
         case "1":
             developer = chooseByIdPrompt(developers, "developer");
-            arrayRemove(developers, developer);
-            arrayRemove(developer.company.employees, developer)
+            removeItemOnce(developers, developer);
+            if (developer.relationship === "employed") {
+                removeItemOnce(developers.company.developers, developer);
+            }
             break;
         case "2":
             company = chooseByIdPrompt(companies, "company");
-            developers.forEach(developer => {
-                if (developer.company == company) {
-                    developer.company = "unemployed"
-                    developer.relationship = "unemployed"
-                }
+            company.employees.forEach(developer => {
+                developer.company = "unemployed"
+                developer.relationship = "unemployed"
+                
             });
-            arrayRemove(companies, company);
+            removeItemOnce(companies,company);
             break;
         case "3":
             language = chooseByIdPrompt(languages, "language")
             developers.forEach(developer => {
-                arrayRemove(developer.languagesKnown, language)
+                removeItemOnce(developer.languagesKnown, language)
             });
-            arrayRemove(languages, language);
+            removeItemOnce(languages, language);
             break;
         default:
             alert("wrong input")
