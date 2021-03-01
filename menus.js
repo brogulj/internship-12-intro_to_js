@@ -144,8 +144,10 @@ function removeMenu(developers, companies, languages) {
         case "3":
             language = chooseByIdPrompt(languages, "language")
             if (!window.confirm("Are you sure you want to delete that?")) {break;}
+            
             developers.forEach(developer => {
-                removeItemOnce(developer.languagesKnown, developer.languagesKnown.find(lang => lang.id = language.id));
+                if (developer.languagesKnown.some(lang => lang.id == language.id))
+                    removeItemOnce(developer.languagesKnown, developer.languagesKnown.find(lang => lang.id = language.id));
             });
             removeItemOnce(languages, language);
             break;
