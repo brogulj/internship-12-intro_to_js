@@ -126,6 +126,7 @@ function removeMenu(developers, companies, languages) {
     switch (choice) {
         case "1":
             developer = chooseByIdPrompt(developers, "developer");
+            if (!window.confirm("Are you sure you want to delete that?")) {break;}
             removeItemOnce(developers, developer);
             if (developer.relationship === relationshipTypeEnum.EMPLOYED) {
                 removeItemOnce(developer.company.employees, developer);
@@ -133,6 +134,7 @@ function removeMenu(developers, companies, languages) {
             break;
         case "2":
             company = chooseByIdPrompt(companies, "company");
+            if (!window.confirm("Are you sure you want to delete that?")) {break;}
             company.employees.forEach(developer => {
                 developer.company = relationshipTypeEnum.UNEMPLOYED
                 developer.relationship = relationshipTypeEnum.UNEMPLOYED
@@ -141,6 +143,7 @@ function removeMenu(developers, companies, languages) {
             break;
         case "3":
             language = chooseByIdPrompt(languages, "language")
+            if (!window.confirm("Are you sure you want to delete that?")) {break;}
             developers.forEach(developer => {
                 removeItemOnce(developer.languagesKnown, developer.languagesKnown.find(lang => lang.id = language.id));
             });
