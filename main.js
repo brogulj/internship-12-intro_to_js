@@ -13,7 +13,7 @@ let developers = [
         relationship: relationshipTypeEnum.UNEMPLOYED,
         company: relationshipTypeEnum.UNEMPLOYED,
         type: developerTypeEnum.FRONTEND,
-        languagesKnown: [Object.assign(languages[0]), Object.assign(languages[1]), Object.assign(languages[2])]
+        languagesKnown: [Object.assign({}, languages[0]), Object.assign({}, languages[1]), Object.assign({}, languages[2])]
     },
     {
         id: 2,
@@ -21,7 +21,7 @@ let developers = [
         relationship: relationshipTypeEnum.FREELANCER,
         company: relationshipTypeEnum.UNEMPLOYED,
         type: developerTypeEnum.BACKEND,
-        languagesKnown: [Object.assign(languages[1]), Object.assign(languages[2])]
+        languagesKnown: [Object.assign({}, languages[1]), Object.assign({}, languages[2])]
     },
     {
         id: 3,
@@ -29,7 +29,7 @@ let developers = [
         relationship: relationshipTypeEnum.UNEMPLOYED,
         company: relationshipTypeEnum.UNEMPLOYED,
         type: developerTypeEnum.FULLSTACK,
-        languagesKnown: [Object.assign(languages[1]), Object.assign(languages[2])]
+        languagesKnown: [Object.assign({}, languages[1]), Object.assign({}, languages[2])]
     },
     {
         id: 4,
@@ -37,7 +37,7 @@ let developers = [
         relationship: relationshipTypeEnum.UNEMPLOYED,
         company: relationshipTypeEnum.UNEMPLOYED,
         type: developerTypeEnum.FULLSTACK,
-        languagesKnown: [Object.assign(languages[1]), Object.assign(languages[2])]
+        languagesKnown: [Object.assign({}, languages[1]), Object.assign({}, languages[2])]
     },
 ]
 

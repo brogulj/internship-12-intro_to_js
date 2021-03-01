@@ -17,7 +17,7 @@ function addDeveloperPrompt(developers, languages, companies) {
     let type = formatType(window.prompt("Please enter the type of the developer: \n1 (backend), 2 (frontend), 3 (fullstack)", "enter the number here"))
     let languagesKnown = [];
 
-    language = Object.assign(formatLanguage(window.prompt("Enter the name of the language developer knows", "enter the name here"), languages));
+    language = Object.assign({}, formatLanguage(window.prompt("Enter the name of the language developer knows", "enter the name here"), languages));
     languagesKnown.push(language);
 
     if (window.confirm("Are you sure you want to add this developer")
@@ -195,7 +195,7 @@ function editDeveloperPrompt(developer, developers, languages, companies) {
     let type = formatType(window.prompt("Please enter the type of the developer: \n1 (backend), 2 (frontend), 3 (fullstack)", "enter the number here"));
     let languagesKnown = [];
 
-    language = Object.assign(formatLanguage(window.prompt("Enter the name of the language developer knows", "enter the name here"), languages));
+    language = Object.assign({}, formatLanguage(window.prompt("Enter the name of the language developer knows", "enter the name here"), languages));
     languagesKnown.push(language);
 
     if (window.confirm("Are you sure you want to edit this developer")
